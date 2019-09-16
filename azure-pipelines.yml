@@ -7,17 +7,15 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'Ubuntu-16.04'
+
+variables:
+  imageName: 'pipelines-javascript-docker'
 
 steps:
-- task: NodeTool@0
+- task: Docker@2
+  displayName: Build an image
   inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
-- script: gulp
-
-- script: |
-    npm install debug
-    npm run build
-  displayName: 'npm install and build'
+    repository: $(imageName)
+    command: build
+    Dockerfile: app/Dockerfile
